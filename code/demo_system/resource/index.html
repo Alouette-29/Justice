@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- <meta charset="utf-8"> -->
+        <title>system</title>
+    </head>
+    <body>
+        <form method="post" enctype="multipart/form-data" id="file_upload">
+            <p>
+                <img id = 'image-preview' width = ''>
+            </p>
+            <div class="textarea item">
+                <div class="hd" >内容：</div>
+                <textarea name="" id="txtContent" style="height:300px;width:600px" onpaste="limitChars()" onblur="limitChars()" onkeydown="limitChars()" onkeyup="limitChars()" onkeypress="limitChars()" onchange="limitChars()" onpropertychange="limitChars()" placeholder="内容字符数1000字符~30万字符，提交内容建议去除封面，目录，附录，仅提交正文。"></textarea>
+            </div>
+            <input type="file" id = "file" name="upload_file" />
+            <input type="button" value = "实体识别" onclick="entity_recongniztion()"/>
+        </form>
+
+        <script src = 'resource/process.js'></script>
+    </body>
+</html>
