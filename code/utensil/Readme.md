@@ -44,26 +44,17 @@
 >
 > 看一下每一列有多少个取值
 >
-> court_id head
+> court_id head                                      已完成
 >
-> apellor 去重
+> appellor 去重                                       已完成
 >
-> keywords 去none
+> keywords 去none                               0条有效，需要自己提取关键词来补全吗？不过已经有了`self.dictionary`，可以在里面设置
 >
-> case_type
+> case_type                                             1125799条有效
 >
-> cause
+> cause                                                    1125799条有效
 >
-> trial_round 
+> trial_round                                           1125349条有效
 >
-> cause
+> settle_type                                           0条有效，似乎也需要在原文提取
 >
-> settle_type
->
-> // set([a.b.c.d..dd]) list.unique()
->
-> // len(set) <10 
->
-> // sorted(['a'’‘’‘])
->
-> // a[i]->i 
