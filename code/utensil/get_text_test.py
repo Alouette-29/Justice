@@ -6,8 +6,9 @@ import json
 import os 
 import numpy as np 
 import pandas as pd 
+# 注意  所有的文件名都传参了  ，为了方便修改 
 class Case():
-    def __init__(self,filename,encoding='utf-8',colpath = './keys_without_0.npy') -> None:
+    def __init__(self,filename='../p2-1-2021.txt',encoding='utf-8',colpath = '../keys_without_0.npy') -> None:
         # 这个主要是数据清洗的时候要用
         # 因为我们可以从文件名打开文件，而不调用self.get_dict()
         self.filename = filename 
@@ -19,8 +20,9 @@ class Case():
             self.file = None
         self.line = 0
         self.dictionary = {}
+        #self.ttline = 1125799
         self.ttline = 0 
-        self.columns = self.load_log()
+        self.columns = self.load_log(colpath)
         self.get_ttline()
         #print(self.line)
     # 每次从file里面读取1行，返回 行号和字典 
@@ -29,12 +31,21 @@ class Case():
         if self.ttline != 0 :
             # 说明这个函数已经执行过了 
             return 
-        thefile=open(self.filename)
+
+        storage = os.stat(self.filename).st_size
+        read = 0
+        buffer_size = 1024*8192
+        thefile=open(self.filename,encoding='utf-8')
+        start_time = time()
+       
         while True:
-            buffer=thefile.read(1024*8192)
+            buffer=thefile.read(buffer_size)
             if not buffer:
                 break
+            read += buffer_size
             self.ttline+=buffer.count('\n')
+            crt_timer = time()
+            print("\r %.2f has been counted,%.2f seconds has been taken "%((read/storage),(crt_timer-start_time)) ,end="")
         thefile.close()
         print("Total lines of the file is ",self.ttline)
         return 
@@ -52,16 +63,10 @@ class Case():
     def load_log(self,colpath):
         columns = np.load(colpath,allow_pickle=True).item()
         self.columns =  columns
-    
-    def string2dict(self,string,filename = None):
-        string = re.sub('\'',"\"",str(string))
-        string = re.sub("None","null",str(string))
-        string+='\n'
-        if filename!=None:
-            with open(filename,'a',encoding='utf-8') as f:
-                f.write(string+'\n')
-        return string 
-    def dict2string(self,dictionary,filename=None):
+        #print(self.columns)
+        return self.columns
+    @staticmethod
+    def dict2string(dictionary,filename=None):
         string = re.sub('\'',"\"",str(dictionary))
         string = re.sub("None","null",str(string))
         if filename!=None:
@@ -95,7 +100,8 @@ class Case():
         # 这个字典只用加载一次，放preprocess 里 
         newdict = {}
         for k in olddict.items(): #遍历原字典的键值对
-            if k[0] in self.columns and k[0]!='is_private' and k[0]!='crawl_time' and k[0]!='d':  #在对照字典里，添加进去
+            if k[0] in self.columns \
+                and k[0]!='is_private' and k[0]!='crawl_time' and k[0]!='d':  #在对照字典里，添加进去
                 newdict[k[0]] = k[1]
         return newdict  #返回值为新的字典
     def modify_courtname(self,olddict,oldframe):
@@ -163,16 +169,18 @@ class Case():
                     continue
                 if dicts['content']==None:
                     # 此处应该统计 与其他六个字段为None 的关系 
-                    pass 
+                    continue
                 else:
                     writelines+=1
                     # 如果这一行不为空
                     # 那么我们需要 删掉空字段 
                     # 并且对其去重 
+                    #print(dicts)
                     dicts = self.delete_none_value(dicts)
                     dicts = self.appellor_dedup(dicts)
+                    result_content = self.dict2string(dicts)
                     with open(clean_set,'a',encoding='utf-8') as file:
-                        file.write(content)
+                        file.write(result_content)
                 #途中的输出  预计加一个进度条  提高一下代码质量 
                 if(writelines%10000==0):
                     crt_timer = time()
@@ -180,4 +188,7 @@ class Case():
                     #     continue
                     # 上面这段改成直接 直接修改这一行的输出就行了 
                     print("\r%d lines has been writed %.2f seconds has been used， average speech : %.2f" % (writelines,crt_timer-pre_timer,(crt_timer-pre_timer)/(writelines/10000)),end="")
-                    break
+
+if __name__=='__main__':
+    reader = Case()
+    reader.preprocess()
