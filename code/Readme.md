@@ -16,15 +16,25 @@ Source code puts here.
 | transformer_embedding |                      | 画图看看预训练模型的嵌入效果                                 |
 | demo_system           |                      |                                                              |
 | geo_distribution      |                      | 空间上的案件的分布                                           |
+| case_reader_test      |                      | 目前的数据预处理函数+ file_reader . 支持 进度条 和 执行进度查看。 |
+|                       |                      |                                                              |
+|                       |                      |                                                              |
+|                       |                      |                                                              |
+|                       |                      |                                                              |
+|                       |                      |                                                              |
+|                       |                      |                                                              |
 |                       |                      |                                                              |
 
-## reorganize.py
 
-requirements: no extra packages need to be installed
 
-1. create a new folder to place reorganze.py and p2-1-2021.txt
-2. open cmd under this folder
+2023/2/6 进度
 
-```
-! python reorganze.py
-```
+数据的预处理基本上完成
+
+地理分布正在进行中
+
+展示系统基本确定了技术方向
+
+案件的联系 还没开始， 预计通过 案件的编号进行查找， 会维护一个hash表 （涉及两种，一种是二审的，一种是同一个人不不同案件） 
+
+识别模型正在第一步， 筛选预训练模型，确定下游任务上。 
