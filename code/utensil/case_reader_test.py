@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd 
 # 注意  所有的文件名都传参了  ，为了方便修改 
 class Case():
-    def __init__(self,filename='../p2-1-2021.txt',encoding='utf-8',colpath = '../keys_without_0.npy') -> None:
+    def __init__(self,filename='../p2-1-2021.txt',encoding='utf-8',colpath = 'utensil/keys_without_0.npy') -> None:
         # 这个主要是数据清洗的时候要用
         # 因为我们可以从文件名打开文件，而不调用self.get_dict()
         self.filename = filename 
@@ -216,7 +216,7 @@ def analysis_boolarray(filename):
         reports['True'][col] = Tnum
         reports['False'][col] = Fnum
     value_combination = df.value_counts()
-    total = np.load("../keys_without_0.npy",allow_pickle=True).item()
+    total = np.load("utensil/keys_without_0.npy",allow_pickle=True).item()
 
     for i in range(6):
         mat = cal_matrix(i,reports,total)
@@ -251,6 +251,6 @@ def cal_matrix(col:int,reports,total:dict):
     return chart_name,mat.astype("int")
                   
 if __name__=='__main__':
-    reader = Case()
+    reader = Case(filename='E:/xiaochuang/p2-1-2021/p2-1-2021.txt',colpath='E:/xiaochuang/Justice/code/utensil/keys_without_0.npy')
     reader.preprocess()
     analysis_boolarray("./None_relation_table.txt")

@@ -68,7 +68,7 @@ def analysis_boolarray(filename):
         reports['True'][col] = Tnum
         reports['False'][col] = Fnum
     value_combination = df.value_counts()
-    total = np.load("../keys_without_0.npy",allow_pickle=True).item()
+    total = np.load("E:/xiaochuang/Justice/code/utensil/keys_without_0.npy",allow_pickle=True).item()
 
     for i in range(6):
         mat = cal_matrix(i,reports,total)
@@ -103,8 +103,8 @@ def cal_matrix(col:int,reports,total:dict):
 from time import time 
 import json
 pre_timer = time()
-clean_set = '../cleanset.txt'
-filename = "../p2-1-2021.txt"
+clean_set = 'E:/xiaochuang/Justice/code/cleanset.txt'
+filename = "E:/xiaochuang/p2-1-2021/p2-1-2021.txt"
 with open(filename,"r",encoding="utf-8") as f:
     line = 0
     writelines = 0 

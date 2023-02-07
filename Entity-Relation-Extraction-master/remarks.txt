@@ -1,0 +1,7 @@
+Readme:
+这是从CSDN上找到的一份可能对我们有所帮助的代码。
+这个模型是用来参加一个竞赛，题目和我们要做的有些不同，好像是给出关系的三元组，让系统对输入进行划分?（详见 pdf文件)
+由于脚本较多，我没能一一仔细看完，但个人认为最有参考意义的都在bert文件夹里，有一些处理中文和定义优化器的部可以参考一下。
+另，附上一个网址:https://github.com/Thidtc/Relation-Classification-via-Convolutional-Deep-Neural-Network
+它这个是用CNN模型做关系分类的，可能更容易看懂些。
+还有:https://github.com/weizhepei/CasRel/blob/master/data_loader.py,用keras写的框架，含有数据预处理和训练代码，可以借鉴。

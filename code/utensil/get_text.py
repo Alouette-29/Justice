@@ -1,6 +1,7 @@
 import json
 import os 
 import numpy as np
+import pandas as pd
 class Case():
     def __init__(self,filename,encoding) -> None:
         if os.path.exists(filename) and os.path.isfile(filename):
@@ -31,49 +32,56 @@ class Case():
         self.load_log(colpath)#加载对照字典
         newdict = {}
         for k in olddict.items(): #遍历原字典的键值对
-            if k[0] in self.columns:  #在对照字典里，添加进去
+            if k[0] in self.columns and k[0]!='is_private' and k[0]!='crawl_time' and k[0]!='d':  #在对照字典里，添加进去
                 newdict[k[0]] = k[1]
         return newdict  #返回值为新的字典
-    #ybk的实验版:处理court_name,olddict为传入的字典
-    def modify_courtname(self,olddict):
+    #ybk的实验版:处理court_name,olddict为传入的字典,oldframe为传入的DataFrame类
+    def modify_courtname(self,olddict,oldframe):
         str=olddict['court_name']
+        ls=[]
         dt = {}
         slen = len(str)
         id1 = str.find('省')
         if (id1!=-1):
             dt['省'] = str[0:id1 + 1]
-
         id2 = str.find('市')
         #print(id2)
         if (id2 != -1):
             dt['市'] = str[id1 + 1:id2 + 1]
-            dt['法院'] = str[id2 + 1:slen]
         else:
-            id5=str.find('自治州')+2
-            if(id5!=-1):
-                dt['市']=str[id1+1:id5+1]
-                dt['法院']=str[id5+1:slen]
-            else:
-                id3 = str.find('人民法院')
-                if (id3 != -1):
-                    dt['县'] = str[id1 + 1:id3]
-                    dt['法院'] = str[id3:slen]
+            id2=str.find('自治州')+2
+            if(id2!=-1):
+                dt['市']=str[id1+1:id2+1]
+        idm1=max(id1,id2)
+        id3=str.find('区')
+        if(id3!=-1):
+            dt['区']=str[idm1+1:id3+1]
+            dt['地址']=str[id3+1:slen]
+        else:
+            id3=id2
+            dt['地址']=str[id3+1:slen]
 
-                else:
-                    id4 = str.find('法院')
-                    dt['县'] = str[id1 + 1:id4]
-                    dt['法院'] = str[id4:slen]
-
-        newdict=dict(olddict)
-        newdict['court_name'] = dt
-        return newdict
-
+        #id=olddict['court_id'] #adcode
+        province=dt.get('省') if dt.get('省')!=None else '' #省
+        city=dt.get('市') if dt.get('市')!=None else '' #市
+        district=dt.get('区')if dt.get('区')!=None else '' #区
+        loc=dt.get('地址')if dt.get('地址')!=None else '' #地址
+        ls.append(province)
+        ls.append(city)
+        ls.append(district)
+        ls.append(loc)
+        #ls.append(id)
+        df2= pd.DataFrame(np.insert(oldframe.values, len(oldframe.index), values=ls, axis=0)) #更新
+        return df2
 
 '''
 A=Case(filename="E:/p2-1-2021/p2-1-2021.txt",encoding='UTF-8')
 for i in range(0,10):
     dic=A.get_dict()[1]
     olddict=A.delete_none_value(dic,"E:/xiaochuang/Justice/code/utensil/keys_without_0.npy")
-    newdict=A.modify_courtname(olddict)
-    print(olddict['court_name'],newdict['court_name'])
+    f = pd.DataFrame(columns=['省', '市', '区', '地址'])
+
+    newdict=A.modify_courtname(olddict,f)
+    print(newdict)
+    #print(olddict)
 '''
