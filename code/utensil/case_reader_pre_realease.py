@@ -31,13 +31,11 @@ class Case():
         if self.ttline != 0 :
             # 说明这个函数已经执行过了 
             return 
-
         storage = os.stat(self.filename).st_size
         read = 0
         buffer_size = 1024*8192
         thefile=open(self.filename,encoding='utf-8')
         start_time = time()
-       
         while True:
             buffer=thefile.read(buffer_size)
             if not buffer:
@@ -70,6 +68,7 @@ class Case():
         # string = json.dumps(dict)
         # string = re.sub('\'',"\"",str(dictionary))
         # string = re.sub("None","null",str(string))
+        # dumps 不行 不好做标注啊我草 
         string = json.dumps(dictionary)
         string+='\n'
         if filename!=None:
