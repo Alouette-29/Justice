@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />   
+        <title>控制语句测试页面</title>
+    </head>
+    <body>
+        <div>
+            未成年是无法访问这一页的！
+            {% if age>=18 %}
+            <div>
+                不过你已经成年了，可以来看一点好康的。
+            </div>
+            {% endif %}
+        </div>
+    </body>
+</html>
