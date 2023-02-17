@@ -8,8 +8,6 @@ import pandas as pd
 filename="E:/xiaochuang/Justice/cleanset.txt"
 colpath='E:/xiaochuang/Justice/code/clean_count.json'
 from case_reader_release2 import Case
-
-
 from tqdm import trange  # 进度条
 
 
