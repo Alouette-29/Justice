@@ -48,8 +48,21 @@ def filter_demo():
 # 关于Jinja2中的控制语句
 @app.route("/control")
 def control_statement():
-    
-    return render_template("control.html")
+    age = 17
+    books = [{"name":"红楼梦", "author":"曹雪芹"}, {"name":"水浒传", "author":"施耐庵"}]
+    return render_template("control.html", age=age, books=books)
+
+
+# Jinja2的模板继承
+@app.route("/child1")
+def child1():
+    return render_template("child1.html")
+
+
+# Jinja2加载静态文件
+@app.route("/static")
+def static_demo():
+    return render_template("static.html")
 
 
 # 1. debug模式: 修改代码实时在网页看到变化, 无需关了重跑
@@ -58,4 +71,4 @@ def control_statement():
 
 if __name__ == '__main__':
     # app.run(debug=True, host='0.0.0.0', port=8000)
-    app.run()
+    app.run(debug=True)

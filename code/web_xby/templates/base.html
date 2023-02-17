@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />   
+        <title>{% block title %}{% endblock %}</title>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <div>
+            <ul>
+                <li><a href="#">首页</a></li>
+                <li><a href="#">新闻</a></li>
+            </ul>
+            <p>此页面继承自base.html</p>
+            {% block body %}{% endblock %}
+        </div>
+        <footer>copyright……</footer>
+    </body>
+</html>

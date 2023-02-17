@@ -13,5 +13,14 @@
             </div>
             {% endif %}
         </div>
+
+        <div>
+            {% for book in books %}
+            <div>
+                图书名称：{{book.name}}，作者：{{book.author}}
+            </div>
+            {% endfor %}
+        </div>
+
     </body>
 </html>

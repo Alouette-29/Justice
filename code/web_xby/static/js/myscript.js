@@ -1,0 +1,1 @@
+alert("本页面有myscript.js的成分")

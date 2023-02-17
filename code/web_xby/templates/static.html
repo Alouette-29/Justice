@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+测试静态文件
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+<script src="{{ url_for('static', filename='js/myscript.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<div>
+    <img src="{{ url_for('static', filename='pic/blue.png') }}" alt="a girl" width="50%"/>
+    <p>这是一张壁纸</p>
+</div>
+{% endblock %}
