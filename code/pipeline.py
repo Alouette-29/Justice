@@ -1,3 +1,26 @@
+"""
+    这是母文件，负责调用其他的模型
+    输入： 原始的文本
+    输出： 一个热力矩阵图，以及匹配成功的句子
+
+    过程：
+    用sentence_transformer 嵌入句子，对于一个有m句话的输入，得到一个(m,384)的特征矩阵
+    用分段模型 抽取事实部分, 得到(m1,384)维的矩阵， 其中m1<=m
+    然后和待匹配数据库的句子中的 n个句子匹配。 我们有n个句子及其对应好的特征向量，
+    将向量归一化之后做矩阵乘法，得到句子相似度矩阵
+    (m1,384)× (384×n) -> (m1,n)
+    然后画出热力图，并保存输入句子的向量
+    最后输出 相似度大于阈值0.95的句子 
+
+    需要的支持文件：sentence_transformer的预训练模型
+    classify 的模型
+    待匹配数据： 句子和句子向量 
+
+    初次编辑： 2023.2.19
+"""
+
+
+
 import torch
 import json
 import numpy as np 
@@ -99,6 +122,5 @@ for i in range(similarity_matrix.shape[0]):
     for j in range(similarity_matrix.shape[1]):
         if similarity_matrix[i][j]>0.80:
             print(sentence_base[i],'[SEP]',facts_sentences[j])
-            pass
 
 
