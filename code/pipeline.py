@@ -14,7 +14,11 @@
 
     需要的支持文件：sentence_transformer的预训练模型
     classify 的模型
-    待匹配数据： 句子和句子向量 
+    待匹配数据： 句子和句子向量
+
+
+    目前匹配模型的问题有： 
+    得到的句子向量精度不够，不能有效识别 ，需要微调 
 
     初次编辑： 2023.2.19
 """
@@ -34,9 +38,14 @@ class EssenceModel(torch.nn.Module):
         out = self.fc1(embeddings)
         out = self.fc2(out)
         return out 
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer,util
 sentenceformer = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 print("sentence_former parameters: ",sum(i.numel() for i in sentenceformer.parameters()))
+
+
+
+
+
 
 
 
@@ -92,19 +101,12 @@ print(database)
 # dot product represent similarity , equal to cosine similarity 
 
 
-def cos_sim(a, b):
-    a_norm = np.linalg.norm(a,axis=1)
-    b_norm = np.linalg.norm(b,axis=0)
-    a =( a.T/a_norm).T
-    b = b/b_norm
-    cos = np.dot(a,b)
-    #cos = np.dot(a,b)/(a_norm * b_norm)
-    return cos
+
 #print(cos_sim(database.cpu(),facts_emb.cpu()).shape)
 
 #print(torch.max(facts_emb),torch.max(database))
 similarity_matrix = np.array((database @ facts_emb).to('cpu'))
-similarity_matrix = cos_sim(database.cpu(),facts_emb.cpu())
+similarity_matrix = util.cos_sim(database.cpu(),facts_emb.cpu())
 
 print("similar ",similarity_matrix.shape)
 import sys
