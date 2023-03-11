@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="{{url_for('static', filename='index.js')}}"></script>
+        <title>文本echo</title>
+    </head>
+
+    <body>
+        <!-- 将表单指向处理数据的视图，此处是/result -->
+        <form action="{{ url_for('result1') }}" method="post">
+            <!-- for中的内容要和对象的id一致 -->
+            <label for="text">请输入待检测的文本</label><br>
+            <textarea name="text" id="text"></textarea><br>
+            <input type="submit" value="点击分析"><br>
+        </form>
+        <form action="{{ url_for('result2') }}" method="post">
+            <label for="input-file">或者选择一个文件(.doc, .docx, .txt)</label><br>
+            <input type="file" id="input-file" accept=".doc, .docx, .txt" onchange="readFile();"/><br>
+            <button onclick="readFile()">点击分析</button><br>
+        </form>
+    </body>
+</html>
