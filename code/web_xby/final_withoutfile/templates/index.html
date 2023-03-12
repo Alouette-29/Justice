@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>       
+        <title>虚假诉讼检测分析</title>
+        <link rel="shortcut icon" href="#"/>
+        <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}"/>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1>虚假诉讼检测分析</h1>
+          </div>
+        <!-- 将表单指向处理数据的视图，此处是/result -->
+        <div class="container">
+            <form action="{{ url_for('result') }}" method="post">
+                <!-- for中的内容要和对象的id一致 -->
+                <label for="text" class="label">请输入待检测的文本</label><br>
+                <textarea name="text" id="text" class="textarea"></textarea><br>
+                <input type="submit" value="点击分析" class="button"><br>
+            </form>
+        </div>
+    </body>
+</html>
