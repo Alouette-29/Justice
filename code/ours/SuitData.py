@@ -7,6 +7,7 @@ import os
 from sentence_transformers import SentenceTransformer
 
 datasetpath="C:/Users/ASUS/Desktop/project/FakeLawsuit/dataset/datasets/valset.txt"
+#datasetpath="C:/Users/ASUS/Desktop/project/FakeLawsuit/dataset/datasets/longtail.txt"
 # 这个函数你不用管，是用来划分数据集的，我已经把划分好的传上去了 
 def split_val_test(path="path/to/valset.txt",proportion = 0.1):
     filename =  os.path.basename(path).split('.')[-2]
@@ -66,6 +67,7 @@ class SuitData(Dataset):
         return inputs,label 
     def __len__(self):
         return self.len 
+dataset = SuitData(datasetpath)
 base_encoder = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 def collate_fn_1(data):
     inputs = [i[0] for i in data]
@@ -82,7 +84,8 @@ def collate_fn_2(data):
     inputs = TBADE_encoder.encode(inputs,convert_to_tensor=True)
     return inputs,labels
 from transformers import AutoModel, AutoTokenizer, AutoModelForMaskedLM
-pretrained_path = 'D:\PreTrainedModels\lawformer'
+#pretrained_path = 'D:\PreTrainedModels\lawformer'
+pretrained_path = "path/to/lawformer"
 tokenizer = AutoTokenizer.from_pretrained("hfl/chinese-roberta-wwm-ext")
 lawformer_encoder = AutoModel.from_pretrained(pretrained_path)
 def collate_fn_3(data):

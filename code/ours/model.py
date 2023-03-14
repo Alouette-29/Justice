@@ -3,6 +3,7 @@ import torch
 class BasicModel(torch.nn.Module):
     # LF 
     def __init__(self,in_dim=384,out_dim=2) -> None:
+        super().__init__()
         self.fc1 = torch.nn.Linear(in_dim,out_dim)
     def forward(self,embeddings):
         out = self.fc1(embeddings)
@@ -10,6 +11,7 @@ class BasicModel(torch.nn.Module):
 class FTModel(torch.nn.Module):
     #DH 
     def __init__(self,in_dim=384,out_dim=2) -> None:
+        super().__init__()
         self.fc1 = torch.nn.Linear(in_dim,in_dim//2)
         self.fc2 = torch.nn.Linear(in_dim//2,out_dim)
     def forward(self,embeddings):
@@ -19,6 +21,7 @@ class FTModel(torch.nn.Module):
 class MLPModel(torch.nn.Module):
     # DF 
     def __init__(self,in_dim=384,out_dim=2) -> None:
+        super().__init__()
         self.fc1 = torch.nn.Linear(in_dim,in_dim)
         self.fc2 = torch.nn.Linear(in_dim,out_dim)
     def forward(self,embeddings):
