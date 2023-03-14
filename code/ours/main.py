@@ -61,7 +61,7 @@ def main(args ,modeltype = "basic",collate_fn=collate_fn_1):
         crt_acc = ((correct/trainset.len).cpu().detach())
         print(f"{modeltype}accuracy is ",crt_acc)
         Acc.append(crt_acc)
-        torch.save(FakeDis, f'./model/{args.modelname}{modeltype}_{e}th.model')
+        torch.save(FakeDis, f'./model/{args.modelname}_{modeltype}_{e}th.model')
         with open("train_log.json",'a',encoding='latin1') as log:
             lf ,rt = "{","}\n"
             string = f"{lf}\"modeltype\":\"{modeltype}\",\"epoch\":\"{e},\"AC\":\"{crt_acc}\",\"NT\":\"{NT}\",\"PT\":\"{PT}\",\"NF\":\"{NF}\",\"PF\":\"{PF}\",\"time\":\"{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}\"{rt}"
@@ -91,7 +91,7 @@ def argparser():
     # warning model path should be modified directly in SuitData.py
     parser = argparse.ArgumentParser(description="bert base case level fake law suit discriminator")
     parser.add_argument("--mode",type=str,default="train")
-    parser.add_argument("--modelname",type=str,default="TSADE")# 这个记得改 
+    parser.add_argument("--modelname",type=str,default="DPR")# 这个记得改 
     parser.add_argument("--ckptpath",type=str,default="./model")
     parser.add_argument("--ckptepoch",type=int,default=10)
     parser.add_argument("--max_epoch",type=int,default=20)
@@ -147,9 +147,15 @@ if __name__=='__main__':
     args = argparser()
     modeltypes = ['basic','double','MLP']
     for modeltype in modeltypes:
-        #print(args.mode)
+        #train DPR 
         if args.mode == 'train':
             main(args,modeltype=modeltype,collate_fn=collate_fn)
+        test_model(f'./model/{modeltype}_{args.max_epoch}.model',collate_fn=collate_fn)    
+    args.modelname = "lawformer"
+    for modeltype in modeltypes:
+        #train lawformer
+        if args.mode == 'train':
+            main(args,modeltype=modeltype,collate_fn=collate_fn_3)
         test_model(f'./model/{modeltype}_{args.max_epoch}.model',collate_fn=collate_fn)
 
 

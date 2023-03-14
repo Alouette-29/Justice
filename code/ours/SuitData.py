@@ -85,9 +85,9 @@ def collate_fn_2(data):
     return inputs,labels
 from transformers import AutoModel, AutoTokenizer, AutoModelForMaskedLM
 #pretrained_path = 'D:\PreTrainedModels\lawformer'
-pretrained_path = "path/to/lawformer"
+#pretrained_path = "path/to/lawformer"
 tokenizer = AutoTokenizer.from_pretrained("hfl/chinese-roberta-wwm-ext")
-lawformer_encoder = AutoModel.from_pretrained(pretrained_path)
+lawformer_encoder = AutoModel.from_pretrained("thunlp/lawformer")
 def collate_fn_3(data):
     inputs = [i[0] for i in data]
     labels = [int(i[1])  for i in data]
