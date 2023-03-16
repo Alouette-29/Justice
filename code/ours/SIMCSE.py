@@ -54,11 +54,16 @@ model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
 
 ################# Read the train corpus  #################
 train_samples = []
+total_sample = 65536//2
+tt =0 
 with gzip.open(filepath, 'rt', encoding='utf8') if filepath.endswith('.gz') else open(filepath, encoding='utf8') as fIn:
     for line in tqdm.tqdm(fIn, desc='Read file'):
+        tt+=1
         # line = line.strip()
         line = json.loads(line)
         train_samples.append(InputExample(texts=[line['fact'], line['judge']]))
+        if tt==total_sample:
+            break
 
 
 logging.info("Train sentences: {}".format(len(train_samples)))

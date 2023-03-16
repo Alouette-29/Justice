@@ -75,7 +75,7 @@ def collate_fn_1(data):
     labels = torch.tensor(labels).long()
     inputs = base_encoder.encode(inputs,convert_to_tensor=True)
     return inputs,labels
-model_path = r'C:\Users\ASUS\Desktop\project\FakeLawsuit\ours\output\train_tsdae-2023-03-11_12-38-38\30000'
+model_path = r'./output/150000'
 TBADE_encoder = SentenceTransformer(model_path)
 def collate_fn_2(data):
     inputs = [i[0] for i in data]
