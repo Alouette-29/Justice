@@ -66,7 +66,7 @@ model = SentenceTransformer(model_name_or_path="./output/30000")
 # We wrap our training sentences in the DenoisingAutoEncoderDataset to add deletion noise on the fly
 train_dataset = datasets.DenoisingAutoEncoderDataset(train_sentences)
 train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
-train_loss = losses.DenoisingAutoEncoderLoss(model, decoder_name_or_path=model_name, tie_encoder_decoder=True)
+train_loss = losses.DenoisingAutoEncoderLoss(model, decoder_name_or_path="./output/30000", tie_encoder_decoder=True)
 
 
 logging.info("Start training")
