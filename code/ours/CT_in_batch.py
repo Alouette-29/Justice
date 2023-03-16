@@ -1,20 +1,22 @@
-
 """
 This file loads sentences from a provided text file. It is expected, that the there is one sentence per line in that text file.
-SimCSE will be training using these sentences. Checkpoints are stored every 500 steps to the output folder.
+
+CT will be training using these sentences. Checkpoints are stored every 500 steps to the output folder.
+
 Usage:
-python train_simcse_from_file.py path/to/sentences.txt
+python train_ct_from_file.py path/to/sentences.txt
+
 """
-from torch.utils.data import DataLoader
 import math
 from sentence_transformers import models, losses
-from sentence_transformers import LoggingHandler, SentenceTransformer, InputExample
+from sentence_transformers import LoggingHandler, SentenceTransformer
 import logging
 from datetime import datetime
 import gzip
 import sys
 import tqdm
-import json 
+from torch.utils.data import DataLoader
+
 #### Just some code to print debug information to stdout
 logging.basicConfig(format='%(asctime)s - %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
@@ -22,11 +24,13 @@ logging.basicConfig(format='%(asctime)s - %(message)s',
                     handlers=[LoggingHandler()])
 #### /print debug information to stdout
 
-# Training parameters
+## Training parameters
 model_name = 'bert-base-chinese'
-train_batch_size = 2
-max_seq_length = 512
+batch_size = 4
 num_epochs = 1
+max_seq_length = 512
+
+#Input file path (a text file, each line a sentence)
 default_path = r'C:\Users\ASUS\Desktop\project\FakeLawsuit\dataset\raw_contrastive_dataset\raw_contrastive_dataset.txt'
 #Input file path (a text file, each line a sentence)
 if len(sys.argv) < 2:
@@ -38,11 +42,11 @@ else:
     filepath = sys.argv[1]
 
 # Save path to store our model
-output_name = ''
+output_name = 'CT'
 if len(sys.argv) >= 3:
     output_name = "-"+sys.argv[2].replace(" ", "_").replace("/", "_").replace("\\", "_")
 
-model_output_path = 'output/train_simcse{}-{}'.format(output_name, datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
+model_output_path = 'output/train_ct-improved{}-{}'.format(output_name, datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
 
 
 # Use Huggingface/transformers model (like BERT, RoBERTa, XLNet, XLM-R) for mapping tokens to embeddings
@@ -53,19 +57,20 @@ pooling_model = models.Pooling(word_embedding_model.get_word_embedding_dimension
 model = SentenceTransformer(modules=[word_embedding_model, pooling_model])
 
 ################# Read the train corpus  #################
-train_samples = []
+train_sentences = []
 with gzip.open(filepath, 'rt', encoding='utf8') if filepath.endswith('.gz') else open(filepath, encoding='utf8') as fIn:
     for line in tqdm.tqdm(fIn, desc='Read file'):
-        # line = line.strip()
-        line = json.loads(line)
-        train_samples.append(InputExample(texts=[line['fact'], line['judge']]))
+        line = line.strip()
+        if len(line) >= 10:
+            train_sentences.append(line)
 
 
-logging.info("Train sentences: {}".format(len(train_samples)))
+logging.info("Train sentences: {}".format(len(train_sentences)))
 
-# We train our model using the MultipleNegativesRankingLoss
-train_dataloader = DataLoader(train_samples, shuffle=True, batch_size=train_batch_size, drop_last=True)
-train_loss = losses.MultipleNegativesRankingLoss(model)
+# A regular torch DataLoader and as loss we use losses.ContrastiveTensionLossInBatchNegatives
+train_dataloader = DataLoader(train_sentences, batch_size=batch_size, shuffle=True, drop_last=True)
+train_loss = losses.ContrastiveTensionLossInBatchNegatives(model)
+
 
 warmup_steps = math.ceil(len(train_dataloader) * num_epochs * 0.1)  # 10% of train data for warm-up
 logging.info("Warmup-steps: {}".format(warmup_steps))
@@ -77,5 +82,5 @@ model.fit(train_objectives=[(train_dataloader, train_loss)],
           optimizer_params={'lr': 5e-5},
           checkpoint_path=model_output_path,
           show_progress_bar=True,
-          use_amp=True  # Set to True, if your GPU supports FP16 cores
+          use_amp=True   # Set to True, if your GPU supports FP16 cores
           )
