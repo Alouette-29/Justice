@@ -1,0 +1,12 @@
+{"modeltype":"basic","modelname":"sim12w,"epoch":"20,"AC":"0.7827021479606628","time":"2023-03-17_17-12-00"}
+{"modeltype":"double","modelname":"sim12w,"epoch":"20,"AC":"0.9064179062843323","time":"2023-03-17_17-12-11"}
+{"modeltype":"MLP","modelname":"sim12w,"epoch":"20,"AC":"0.9099858403205872","time":"2023-03-17_17-12-20"}
+{"modeltype":"basic","modelname":"sim12w,"epoch":"39,"AC":"0.8687615394592285","time":"2023-03-17_17-16-29"}
+{"modeltype":"double","modelname":"sim12w,"epoch":"39,"AC":"0.9104586839675903","time":"2023-03-17_17-16-40"}
+{"modeltype":"MLP","modelname":"sim12w,"epoch":"39,"AC":"0.909341037273407","time":"2023-03-17_17-16-49"}
+{"modeltype":"basic","modelname":"tsade15w,"epoch":"39,"AC":"0.8845376968383789","time":"2023-03-17_17-20-50"}
+{"modeltype":"double","modelname":"tsade15w,"epoch":"39,"AC":"0.9094269871711731","time":"2023-03-17_17-21-00"}
+{"modeltype":"MLP","modelname":"tsade15w,"epoch":"39,"AC":"0.909727931022644","time":"2023-03-17_17-21-10"}
+{"modeltype":"basic","modelname":"tsade15w,"epoch":"20,"AC":"0.8611959218978882","time":"2023-03-17_17-21-34"}
+{"modeltype":"double","modelname":"tsade15w,"epoch":"20,"AC":"0.9099858403205872","time":"2023-03-17_17-21-44"}
+{"modeltype":"MLP","modelname":"tsade15w,"epoch":"20,"AC":"0.909341037273407","time":"2023-03-17_17-21-54"}
