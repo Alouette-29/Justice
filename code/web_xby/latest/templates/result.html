@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>虚假诉讼检测分析</title>
+        <link rel="shortcut icon" href="#"/>
+        <link rel="stylesheet" href="{{url_for('static', filename='result.css')}}"/>
+    </head>
+
+    <body>
+        <h1>虚假诉讼相似度分析报告</h1>
+        <p><b>以下是检测结果：</b></p>
+        <!-- 开一个空的div用来存放结果 -->
+        <div id="result">
+            <p>{{classify}}</p>
+
+            <p><b>以下是类似虚假诉讼案件参考：</b></p>          
+            {% for simcase in similar %}
+            <p>
+            {{simcase['name']}}
+            <br>
+            {{simcase['id']}}
+            <br>
+            {{simcase['sim']}}
+            <br>
+            {% endfor %}
+            </p>
+
+            <p><b>以下是关键句摘要：</b></p>
+            <p>{{summary}}</p>
+        </div>
+    </body>
+</html>
